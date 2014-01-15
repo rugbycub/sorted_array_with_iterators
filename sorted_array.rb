@@ -4,6 +4,7 @@ class SortedArray
   def initialize arr=[]
     @internal_arr = []
     arr.each { |el| add el }
+    puts arr
   end
 
   def add el
@@ -38,22 +39,43 @@ class SortedArray
   end
 
   def each &block
-    raise NotImplementedError.new("You need to implement the each method!")
+    i = 0
+    while i < @internal_arr.length
+      yield @internal_arr[i]
+      i += 1
+    end
+    return @internal_arr
+    # raise NotImplementedError.new("You need to implement the each method!")
   end
 
   def map &block
-    raise NotImplementedError.new("You need to implement the map method!")
+    arr = Array.new
+    self.each do |i|
+      yield i
+    end
+    return @internal_arr
+    #raise NotImplementedError.new("You need to implement the map method!")
   end
 
-  def map! &block
-    raise NotImplementedError.new("You need to implement the map! method!")
+    
+
+def map! &block
+  
+    new_arr = []
+    self.each{|ele| new_arr << (yield ele) }
+    @internal_arr = new_arr
+
+    # raise NotImplementedError.new("You need to implement the map! method!")
   end
 
-  def find value
-    raise NotImplementedError.new("You need to implement the find method!")
+  def find &block
+  @internal_arr.each do
+    |value| return if yield(value)
+  end
   end
 
   def inject acc=nil, &block
-    raise NotImplementedError.new("You need to implement the inject method!")
+    each { |x| acc += yield(x) }
+    return acc
   end
 end
